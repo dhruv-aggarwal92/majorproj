@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
-const port = 8000;
+const cookieParsar = require('cookie-parser');
+const port = 9000;
+app.use(express.urlencoded());
+app.use(cookieParsar());
 
+const db = require('./config/mongoose');     //conect mongoose file with index.js
+
+app.use(express.static('assets'));
 app.set('view engine','ejs');
 app.set('views','./view')
 app.use('/',require('./routes'))
