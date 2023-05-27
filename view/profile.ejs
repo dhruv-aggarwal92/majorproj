@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>
+            <%= title %>
+        </title>
+    </head>
+    <body>
+        <h1>Profile HERE</h1>
+        <p>Name: <%= user.name%></p>
+        <p>Email: <%= user.email%></p>
+    </body>
+
+    <form action="/users/remove" method="POST">
+        <input type="submit" value="Sign Out">
+    </form>
+</html>
