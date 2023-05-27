@@ -22,14 +22,22 @@ module.exports.profile = async(req, res)=>{
 }
 
 module.exports.user_sign_up = function(req, res){
+    if(req.cookies.user_id){
+        return res.redirect("profile")
+    }
     return res.render("user_sign_up",{
         title: "Codial | Sign Up"
     });
 }
 module.exports.user_log_in = function(req, res){
+    if(req.cookies.user_id){
+        return res.redirect("profile")
+    }
+    else{
     return res.render("user_log_in",{
         title: "Codial | Log In"
     });
+    }
 }
 module.exports.create = async(req,res)=>{
     if(req.body.password!=req.body.confirm_password){
@@ -62,32 +70,37 @@ module.exports.create = async(req,res)=>{
 }
 
 module.exports.createsession = async(req,res)=>{
-
-    try{
-        const findit2 = await User.findOne({email: req.body.email});
-            if(findit2){
-                if(findit2.password != req.body.password){
-                    console.log("qwe");
-                    return res.redirect('back');
-                }
-                res.cookie('user_id',findit2.id);
-                return res.redirect('/users/profile');
-        }else{
-            return res.redirect('back');
+   
+        console.log("zxcvbnm");
+        try{
+            console.log("asdfgh");
+            const findit2 = await User.findOne({email: req.body.email});
+                if(findit2){
+                    if(findit2.password != req.body.password){
+                        console.log("qwe");
+                        return res.redirect('back');
+                    }
+                    res.cookie('user_id',findit2.id);
+                    return res.redirect('/users/profile');
+            }else{
+                return res.redirect('back');
+            }
+        }catch(err){
+            console.log('error in finding user in log in'); 
+            return;
         }
-    }catch(err){
-        console.log('error in finding user in log in'); 
-        return;
-    }
 }
 module.exports.remove = function(req, res){
     // cookie = req.cookies;
     // for (var prop in cookie) {
     //     if (!cookie.hasOwnProperty(prop)) {
     //         continue;
-    //     }    
+    //     }
     //     res.cookie(prop, '', {expires: new Date(0)});
     // }
     // res.redirect('/');
+    res.clearCookie('user_id');
+
+
     return res.redirect("/");
 }
