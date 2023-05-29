@@ -1,7 +1,9 @@
 const User = require("../models/users");
 
 module.exports.profile = function(req, res){
-    return res.render("<h1>User profile</h1>");
+    return res.render("profile",{
+        title: "Codial | profile"
+    });
 }
 module.exports.user_sign_up = function(req, res){
     return res.render("user_sign_up",{
@@ -18,7 +20,6 @@ module.exports.create = async(req,res)=>{
         return res.redirect("back");
     }
     try{
-        console.log("abc");
         const findit = await User.findOne({email: req.body.email});
             if(!findit){
                 // try{
@@ -42,4 +43,8 @@ module.exports.create = async(req,res)=>{
         console.log('error in finding user in signing up'); 
         return;
     }
+}
+
+module.exports.createsession = function(req,res){
+        return res.redirect("/users/profile");
 }
