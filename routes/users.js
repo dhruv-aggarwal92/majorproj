@@ -12,7 +12,8 @@ router.post('/create',usersController.create);
 // use passport as a middleware to authenticate
 router.post('/createsession', passport.authenticate(
     'local',
-    {failureRedirect: '/users/log-in'}
+    {failureRedirect: '/users/log-in'}      //make your email name and mongodb email name same i.e email otherwise it goes in failure.
 ), usersController.createsession);
 
+router.get('/sign-out',usersController.destroysession)
 module.exports = router;

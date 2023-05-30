@@ -4,7 +4,6 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/users');
 
-
 // authentication using passport
 passport.use(new LocalStrategy({
         usernameField: 'email'
@@ -13,10 +12,12 @@ passport.use(new LocalStrategy({
         // find a user and establish the identity
         try{
         const user = await User.findOne({email: email})
+        module.exports.user = user;
             if (!user || user.password != password){
                 console.log('Invalid Username/Password');
                 return done(null, false);
             }
+
             return done(null, user);
     }
     catch(err){
@@ -50,13 +51,13 @@ passport.serializeUser(function(user, done){
 
 //new methord...................
 passport.deserializeUser(async(id, done)=>{
-    const user = User.findById(id)
+    const user = User.findById(id);
     try{
         return done(null, user);
     }
     catch(err){
-        return done(err);
         console.log('Error in finding user --> Passport');
+        return done(err);
     }
 });
 
@@ -68,19 +69,18 @@ passport.checkAuthentication = function(req, res, next){
     //if the user is not signed in
     return res.redirect('/users/log-in');
 }
+passport.setAuthenticatedUser = function(req, res, next){
+    if (req.isAuthenticated()){
+        // req.user contains the current signed in user from the session cookie and we are just sending this to the locals for the views
+        res.locals.user = req.user;
+    }
+
+    next();
+}
 passport.islogin = function(req, res, next){
     if(req.isAuthenticated()){
         return res.redirect("/users/profile")
     }
     return next();
-}
-
-
-passport.setAuthenticatedUser = function(req, res, next){
-    if(req.isAuthenticated()){
-        //req.user contains the current signed in user from the session cookie and we are just sending this to the locals for the views
-        res.locals.user = req.user;
-    }
-    next();
 }
 module.exports = passport; 

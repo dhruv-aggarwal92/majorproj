@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const cookieParsar = require('cookie-parser');
 const port = 9000;
+const expressLayouts = require('express-ejs-layouts');         //header and footers etc.
 app.use(express.urlencoded());
 app.use(cookieParsar());
 
@@ -10,8 +11,17 @@ const db = require('./config/mongoose');     //conect mongoose file with index.j
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-st');
+const MongoStore = require('connect-mongo');          //used for store the session i.e. login data even if we restart the server
 
 app.use(express.static('assets')); 
+
+app.use(expressLayouts);
+// extract style and scripts from sub pages into the layout
+app.set('layout extractStyles', true);
+app.set('layout extractScripts', true);
+
+
+
 app.set('view engine','ejs');
 app.set('views','./view')
 
@@ -23,6 +33,15 @@ app.use(session({
     cokkie:{
         maxAge:(1000*60*100)
     }
+    // store: MongoStore.create(  
+    //     {
+    //         mongoUrl: process.env.MONGO_URI,
+    //         autoRemove: 'disabled'
+    //     },
+    //     function(err){
+    //         console.log(err || 'connect-mongodb setup ok');
+    //     }
+    // )
 }));
 
 app.use(passport.initialize());
@@ -33,7 +52,7 @@ app.use(passport.session());
 //   function(req, res) {
 //     res.redirect('/users/profile');
 // });
-app.use(passport.setAuthenticatedUser);
+app.use(passport.setAuthenticatedUser);    //use to use user in views
 app.use('/',require('./routes'))
 
 app.listen(port,function(err){

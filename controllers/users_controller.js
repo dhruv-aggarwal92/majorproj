@@ -1,10 +1,14 @@
 const User = require("../models/users");
+const pass = require("../config/passport-local-st")
 
 module.exports.profile = function(req, res){
+    // console.log(pass.user);
     return res.render("profile",{
-        title: "Codial | profile"
+        title: "Codial | profile",
+        cust: pass.user
     });
 }
+
 module.exports.user_sign_up = function(req, res){
     return res.render("user_sign_up",{
         title: "Codial | Sign Up"
@@ -45,6 +49,13 @@ module.exports.create = async(req,res)=>{
     }
 }
 
-module.exports.createsession = function(req,res){
-        return res.redirect("/users/profile");
+module.exports.createsession = function(req, res){
+        return res.redirect("/");
+}
+
+module.exports.destroysession = function(req, res){
+    req.logout(function(err) {
+        if (err) { return next(err); }
+        res.redirect('/');
+      });
 }
