@@ -1,0 +1,10 @@
+body {
+  font-family: sans-serif;
+  margin-left: 0;
+  /* text-align:center;*/
+}
+body #layout-main {
+  height: 100%;
+}
+
+/*# sourceMappingURL=layout.css.map */
