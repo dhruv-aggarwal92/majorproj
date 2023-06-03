@@ -15,10 +15,13 @@
             </form>
             <div>
                 <%for(let i of user_post){%>
+                    <p>
                     <ul id="li">
-                        <!-- <li><%= i.user.name%></li> -->
-                        <li><%= i.content%></li>
+                        
+                        <li><%= i.user.name %></li>
+                        <li><%= i.content %></li>
                     </ul>
+                    </p>
                 <%}%>
             </div>
         </section>
