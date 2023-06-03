@@ -15,5 +15,5 @@ router.post('/createsession', passport.authenticate(
     {failureRedirect: '/users/log-in'}      //make your email name and mongodb email name same i.e email otherwise it goes in failure.
 ), usersController.createsession);
 
-router.get('/sign-out',usersController.destroysession)
+router.get('/sign-out',usersController.destroysession);
 module.exports = router;

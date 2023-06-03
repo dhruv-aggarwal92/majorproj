@@ -15,11 +15,11 @@ passport.use(new LocalStrategy({
         module.exports.user = user;
             if (!user || user.password != password){
                 console.log('Invalid Username/Password');
-                return done(null, false);
+                return done(null, false);   
             }
-
+            
             return done(null, user);
-    }
+        }
     catch(err){
             console.log('Error in finding user --> Passport');
             return done(err);
@@ -83,4 +83,4 @@ passport.islogin = function(req, res, next){
     }
     return next();
 }
-module.exports = passport; 
+module.exports = passport;

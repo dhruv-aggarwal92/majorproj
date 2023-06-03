@@ -13,7 +13,7 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-st');
 const MongoStore = require('connect-mongo');          //used for store the session i.e. login data even if we restart the server
 
-var sass = require('node-sass');                //sass
+// var sass = require('node-sass');                //sass
 // sass.render({
 //     file: layout.scss,
 //     [, options..]
