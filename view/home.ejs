@@ -13,6 +13,14 @@
                 <textarea name="content" cols="30" rows="3"></textarea>
                 <input type="submit" value="Post">
             </form>
+            <div>
+                <%for(let i of user_post){%>
+                    <ul id="li">
+                        <!-- <li><%= i.user.name%></li> -->
+                        <li><%= i.content%></li>
+                    </ul>
+                <%}%>
+            </div>
         </section>
     </body>
 </html>

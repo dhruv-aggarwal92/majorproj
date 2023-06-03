@@ -14,17 +14,11 @@ const pass = require("../config/passport-local-st")
 // }
 module.exports.create = async(req,res)=>{
     try{
-    // if (user){
         Post.create({
         content: req.body.content,
         user: pass.user._id
     })
     return res.redirect('/');
-    // }
-    // else{
-    //     console.log("first sing-in")
-    //     return res.redirect("/users/log-in");
-    // }
     }catch(err){
         console.log("err in posting comment");
     }

@@ -3,7 +3,6 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/users');
-
 // authentication using passport
 passport.use(new LocalStrategy({
         usernameField: 'email'
@@ -82,5 +81,13 @@ passport.islogin = function(req, res, next){
         return res.redirect("/users/profile")
     }
     return next();
+}
+passport.logedin = function(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    }
+    else{
+        return res.redirect("/");
+    }
 }
 module.exports = passport;
