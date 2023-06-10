@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
-const  postSchema = new mongoose.Schema({
+const postSchema = new mongoose.Schema({
     content:{
         type: String,
-        requireed: true
+        required: true
     },
     user:{
         type: mongoose.Schema.Types.ObjectId,
@@ -13,7 +13,7 @@ const  postSchema = new mongoose.Schema({
     comments:[
         {
             type: mongoose.Schema.Types.ObjectId,
-            ref:'comment'
+            ref:'Comment'
         }
     ]
 

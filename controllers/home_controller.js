@@ -14,7 +14,15 @@ module.exports.home = async(req,res)=>{
     // }catch(err){
     //     console.log("error in fetching post");
     // }
-    post.find({}).populate('user').then((posts)=>{
+    post.find({})
+    .populate('user')
+    .populate({
+        path:'comments',
+        populate:{
+            path: 'user'
+        }
+    })
+    .then((posts)=>{
             return res.render('home',{
                 title: 'MYproj',
                 cust: pass.user,

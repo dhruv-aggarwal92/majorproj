@@ -24,7 +24,7 @@ module.exports.create = async(req,res)=>{
         return res.redirect("back");
     }
     try{
-        const findit = await User.findOne({email: req.body.email});
+        const findit = await User.find({email: req.body.email});
             if(!findit){
                 // try{
                     User.create({
