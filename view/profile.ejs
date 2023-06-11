@@ -6,7 +6,19 @@
     </head>
     <body>
         <h1>Profile</h1>
-        <p><%= cust.name %></p>
-        <p><%= cust.email %></p>
+        <% if(cust.id == cust2.id){ %>
+            <!-- if user matches then show the form -->
+            <form action="/users/update/<%= cust.id %>" method="POST">
+                <input type="text" name="name" placeholder="Your Name" value="<%= cust.name %>" required>
+                <input type="email" name="email" placeholder="Your Email" value="<%= cust.email %>" required>
+                <input type="submit"  value="Update">
+            </form>
+            <p>Log in again to see changes</p>
+        <%}else{%>    
+            <!-- else show only the profile info -->
+            <p><%= cust2.name %></p>
+            <p><%= cust2.email %></p>
+        <%} %>
+
     </body>
 </html>
