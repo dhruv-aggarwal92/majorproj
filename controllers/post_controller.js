@@ -29,11 +29,8 @@ module.exports.destroy = async(req,res)=>{
         const post = await Post.findById(req.params.id)
         // .id means converting the object id into string
         if(post.user = pass.user.id){               //pass is for user loged in at that moment
-            console.log("lolol3");
             // post.remove();
-            // let cont = await Post.findByIdAndDelete(post._id)
-            // return res.redirect("back");
-            // let cot = await Comment.find
+            let cont = await Post.findByIdAndDelete(post._id)
             let cot = await Comment.deleteMany({post: req.params.id})
             return res.redirect("back");
         }

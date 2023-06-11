@@ -21,12 +21,14 @@ module.exports.user_log_in = function(req, res){
 }
 module.exports.create = async(req,res)=>{
     if(req.body.password!=req.body.confirm_password){
+        console.log("qwertyu")
         return res.redirect("back");
     }
     try{
         const findit = await User.find({email: req.body.email});
             if(!findit){
                 // try{
+                    console.log("zxcvbnm")
                     User.create({
                         name: req.body.name,
                         email: req.body.email,
@@ -40,6 +42,7 @@ module.exports.create = async(req,res)=>{
                 // }
             }
             else{
+                console.log(findit)
                 return res.redirect("back");
             }
         // })
