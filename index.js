@@ -13,6 +13,9 @@ const passport = require('passport');
 const passportLocal = require('./config/passport-local-st');
 const MongoStore = require('connect-mongo');          //used for store the session i.e. login data even if we restart the server
 
+const flash = require("connect-flash");
+const customMware = require('./config/middleware');
+
 // var sass = require('node-sass');                //sass
 // sass.render({
 //     file: layout.scss,
@@ -29,7 +32,7 @@ app.set('layout extractScripts', true);
 
 
 app.set('view engine','ejs');
-app.set('views','./view')
+app.set('views','./view');
 
 app.use(session({
     name:"codial",
@@ -53,12 +56,10 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
-// app.post('/users/createsession',
-//   passport.authenticate('local', { failureRedirect: '/users/log-in', failureMessage: true }),
-//   function(req, res) {
-//     res.redirect('/users/profile');
-// });
 app.use(passport.setAuthenticatedUser);    //use to use user in views
+app.use(flash());
+app.use(customMware.setFlash);
+
 app.use('/',require('./routes'))
 
 app.listen(port,function(err){

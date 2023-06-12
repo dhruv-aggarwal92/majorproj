@@ -15,7 +15,6 @@ module.exports.update = async(req,res)=>{
 }
 module.exports.profile = async(req, res)=>{
     user = await User.findById(req.params.id);
-    console.log(pass.user.name)
     const user_mod = await User.findById(pass.user);
     return res.render("profile",{
         title: "Codial | profile",
@@ -66,12 +65,14 @@ module.exports.create = async(req,res)=>{
 }
 
 module.exports.createsession = function(req, res){
-        return res.redirect("/");
+    req.flash('success', 'Logged in Successfully');    
+    return res.redirect("/");
 }
 
 module.exports.destroysession = function(req, res){
     req.logout(function(err) {
         if (err) { return next(err); }
+        req.flash('success', 'You have logged out!');    
         res.redirect('/');
       });
 }
