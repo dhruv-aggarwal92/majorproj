@@ -42,6 +42,7 @@ const User = require("../models/users");
 module.exports.home = async(req,res)=>{
     try{
         let posts = await post.find({})
+        .sort('-createdAt')                            //sort my post in cronlogical order
         .populate('user')
         .populate({
             path:'comments',
@@ -58,7 +59,7 @@ module.exports.home = async(req,res)=>{
             all_user: user
         })
     }catch(err){
-        consol.log("err in finding user",err)
+        console.log("err in finding user",err)
     }
 }
 

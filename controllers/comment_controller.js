@@ -14,15 +14,18 @@ module.exports.create = async(req,res)=>{
                 })
                 post.comments.push(comment)
                 post.save();
+                req.flash('success', 'Comments is posted')
                 return res.redirect('/');
                 }
             else{
+                req.flash('error', 'This is not a valid post')
                 console.log("err in finding post")
             }   
-        }catch(err){
-            console.log("lol comment des not added to post schemas")
+        }catch(err){    
+            console.log("comment does not added to post schemas")
         }
     }catch(err){
+        req.flash('error', err)
         console.log("err in posting comment")
     }
 }
@@ -33,13 +36,16 @@ module.exports.destroy = async(req,res)=>{
             let postid = comment.post;
             let c = await Comment.findByIdAndDelete(comment._id)
             let post = await Post.findByIdAndUpdate(postid,{$pull:{comments:req.params.id}})
+            req.flash('success', 'Comment is deleted')
             return res.redirect('back');
         }
         else{
+            req.flash('error', 'You can not delete this comment')
             console.log("that not your comment you naughty");
             return res.redirect('back');
         }
     }catch(err){
+        req.flash('error', err)
         console.log("error in removing comment")
     }
 }

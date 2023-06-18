@@ -21,6 +21,7 @@
     "express": "^4.18.2",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.17.3",
+    "jquery": "^3.7.0",
     "mongoose": "^7.2.2",
     "npm-check": "^6.0.1",
     "passport": "^0.6.0",
