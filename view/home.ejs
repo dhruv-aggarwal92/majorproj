@@ -10,14 +10,16 @@
             <section id="feed-posts">
                 <h4>Posts</h4>
                 <%if(locals.user){%>
-                <form action="/posts/create" id="new-post-form" method="POST">
-                    <textarea name="content" cols="30" rows="3" required></textarea>
+                <form action="/posts/create" id="new-post-form" enctype="multipart/form-data" method="POST">
+                    <input type="file" name="post_img" placeholder="Post_somthing">
+                    <textarea name="content" cols="30" rows="3"></textarea>
                     <input type="submit" value="Post">
                 </form>
                 <%}%>
                 <div id="posts-list-container">
                     
                         <%for(post of user_post){%>
+                            <hr>
                             <%- include('_post') -%>
                         <%}%>
                           
@@ -43,5 +45,6 @@
             </section>
         </div>
     </body>
-    <script src="/js/home_posts.js"></script>
+    <!-- <script src="/js/home_posts.js"></script>
+    <script src="/js/home_comments.js"></script> -->
 </html>

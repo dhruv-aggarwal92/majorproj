@@ -9,11 +9,21 @@ module.exports.create = async(req,res)=>{
             if(post){
                 const comment = await Comment.create({
                     content: req.body.content,
-                    post: req.body.post, 
-                    user: pass.user._id     
+                    post: req.body.post,
+                    user: pass.user._id
                 })
                 post.comments.push(comment)
                 post.save();
+
+                if(req.xhr){
+                    return res.status(200).json({
+                        data:{
+                            post:post,                   //my different way
+                            comment:comment
+                        },
+                        message: "comment cereated"
+                    })
+                }
                 req.flash('success', 'Comments is posted')
                 return res.redirect('/');
                 }

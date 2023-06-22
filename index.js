@@ -23,6 +23,9 @@ const customMware = require('./config/middleware');
 //   }, function(err, result) { /*...*/ });
 
 app.use(express.static('assets')); 
+//make the uploads path available to browser
+app.use('/uploads',express.static(__dirname+'/uploads')) 
+
 
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
@@ -42,7 +45,7 @@ app.use(session({
     cokkie:{
         maxAge:(1000*60*100)
     }
-    // store: MongoStore.create(  
+    // store: MongoStore.create(                        didn't log out from our page if we rerun the server
     //     {
     //         mongoUrl: process.env.MONGO_URI,
     //         autoRemove: 'disabled'

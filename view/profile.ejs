@@ -3,15 +3,31 @@
         <title>
             <%= title %>
         </title>
+        <link rel="stylesheet" href="/css/user_profile.css">
     </head>
-    <body>
+    <body> 
         <h1>Profile</h1>
-        <% if(cust.id == cust2.id){ %>
+        <%if(cust2.avatar) {%>
+            <img src="<%= cust2.avatar %>" all="<%=cust2.name%>" width="100">
+        <%}%>
+            <% if(cust.id == cust2.id){ %>
             <!-- if user matches then show the form -->
-            <form action="/users/update/<%= cust.id %>" method="POST">
+            <form action="/users/update/<%= cust.id %>" enctype="multipart/form-data" method="POST">
                 <input type="text" name="name" placeholder="Your Name" value="<%= cust.name %>" required>
                 <input type="email" name="email" placeholder="Your Email" value="<%= cust.email %>" required>
+                
+                <input type="file" id="profile_pic" name="avatar" placeholder="Profile Picture">
+
                 <input type="submit"  value="Update">
+                <br><br><br>
+                <img id="preview">
+<br>
+                <div id="info">
+                    <i>File Info:</i>
+                    <p><strong>Image Name:</strong> <span class="img-name">be-happy.jpg</span></p>
+                    <p><strong>Image Type:</strong><span class="img-type">image/jpeg</span></p>
+                    <p><strong>Image Size:</strong><span class="img-size">116019bytes</span></p>    
+                </div>
             </form>
             <p>Log in again to see changes</p>
         <%}else{%>    
@@ -21,4 +37,6 @@
         <%} %>
 
     </body>
+    <script src="/js/profile.js"></script>
+
 </html>

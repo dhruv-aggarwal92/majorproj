@@ -1,13 +1,37 @@
 const User = require("../models/users");
 const pass = require("../config/passport-local-st");
 
+const fs = require('fs');
+const path = require('path')
 
 module.exports.update = async(req,res)=>{
     try{
         
     if(pass.user.id == req.params.id){
-            const user_update = await User.findByIdAndUpdate(req.params.id,{name:req.body.name, email:req.body.email});
-            return res.redirect('back');
+            // const user_update = await User.findByIdAndUpdate(req.params.id,{name:req.body.name, email:req.body.email});   //now body.parser not able to access my form directly because of enctype="multipart/form-data"
+            let user = await User.findById(req.params.id)
+            User.uploadedAvatar(req,res, function(err){
+                if(err){console.log('*****Multer Error*****:',err)}
+                user.name = req.body.name;
+                user.email = req.body.email;    
+
+                if(user.avatar){
+                    let path_check = path.join(__dirname,'..',user.avatar)
+                    if (fs.existsSync(path_check)) {
+                        fs.unlinkSync(path.join(__dirname,'..',user.avatar))
+                    }
+                }
+                if(req.file){
+                    //this is saving the path of the uploaded file into the avatar field in user 
+                    user.avatar = User.avatarPath+'/'+req.file.filename;
+                }
+                user.save();
+                return res.redirect('back');
+            })
+    }
+    else{
+        req.flash('error','Unauthorized');
+        return res.redirect('back');
     }
     }catch(err){
         return res.status(401).send('Unauthorized');

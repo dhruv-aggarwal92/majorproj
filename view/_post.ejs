@@ -1,32 +1,39 @@
-<li id="post-<%= post._id%>">
-    <hr>
+<ul id="post-<%= post._id%>">
     <p>
         <%if(locals.user && cust.id == post.user.id){%>
             <small>
-                <a class='delete-post-button' href="/posts/destroy/<%= post.id %>">X</a>
+                <a class='delete-post-button' href="/posts/destroy/<%= post.id %>"><small style="font-size:20px;">X</small></a>
             </small>
         <%}%>
+        <small style="font-size:20px;"><%= post.user.name %></small>
         <ul id="li">
-            <li><%= post.user.name %></li>
-            <li><%= post.content %></li>
+            <%if(post.post_img) {%>
+                <img src="<%=post.post_img%>" all="<%= post.user.name%>" width="350">
+                <br>
+            <%}%>
+            <%if(post.content) {%>
+                <li><%= post.content %></li>
+            <%}%>
+            <br>
             <ul>
             <div class="post-comments">   
                 <% if (locals.user){%>
-                    <form action="/comments/create" id="new-comment-form" method="POST">
+                    <form action="/comments/create" id="new-<%= post._id %>-comment-form" method="POST">
+                        
                         <input type="text" name="content" cols="30" rows="1" placeholder="Your thoughts" required>
                         <input type="hidden" name="post" value="<%= post._id %>">
-                        <input type="submit" value="Post">
+                        <input type="submit" value="Add Comment">
                     </form>
                 <%}%>
                                 
                 <div id="post-comments-list">
                                     
-                    <ul id="post-commets-<%=post._id%>">            <!--   A little diffrent from somthin we are doing  -->
+                    <ul id="post-comments-<%=post._id%>">            <!--   A little diffrent from somthin we are doing  -->
                         <% for (comment of post.comments){%>                    
-                            <p>
+                            <p id="comment-<%= comment._id%>">
                                 <%if(locals.user && cust.id == comment.user.id){%>
                                     <small>
-                                        <a href="/comments/destroy/<%= comment.id %>">X</a>
+                                        <a class="delete-comment-button" href="/comments/destroy/<%= comment.id %>">X</a>
                                     </small>
                                 <%}%>
                                 <%= comment.content %>
@@ -40,4 +47,4 @@
             </ul>
         </ul>
     </p>
-</li>
+</ul>
