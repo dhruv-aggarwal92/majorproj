@@ -5,8 +5,7 @@ const fs = require('fs');
 const path = require('path')
 
 module.exports.update = async(req,res)=>{
-    try{
-        
+    try{   
     if(pass.user.id == req.params.id){
             // const user_update = await User.findByIdAndUpdate(req.params.id,{name:req.body.name, email:req.body.email});   //now body.parser not able to access my form directly because of enctype="multipart/form-data"
             let user = await User.findById(req.params.id)
@@ -38,7 +37,7 @@ module.exports.update = async(req,res)=>{
     }
 }
 module.exports.profile = async(req, res)=>{
-    user = await User.findById(req.params.id);
+    let user = await User.findById(req.params.id);
     const user_mod = await User.findById(pass.user);
     return res.render("profile",{
         title: "Codial | profile",
