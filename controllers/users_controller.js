@@ -3,7 +3,7 @@ const pass = require("../config/passport-local-st");
 
 const fs = require('fs');
 const path = require('path')
-
+const gpass = require("../config/passport-google-oauth2-strategy");
 module.exports.update = async(req,res)=>{
     try{   
     if(pass.user.id == req.params.id){
@@ -38,7 +38,14 @@ module.exports.update = async(req,res)=>{
 }
 module.exports.profile = async(req, res)=>{
     let user = await User.findById(req.params.id);
-    const user_mod = await User.findById(pass.user);
+    let user_mod={};
+    if(pass.user){
+        user_mod = await User.findById(pass.user);
+    }
+    if(gpass.user){
+        user_mod = await User.findById(gpass.user);
+
+    }
     return res.render("profile",{
         title: "Codial | profile",
         cust2: user,
@@ -89,13 +96,13 @@ module.exports.create = async(req,res)=>{
 
 module.exports.createsession = function(req, res){
     req.flash('success', 'Logged in Successfully');    
-    return res.redirect("/");
+    return res.redirect("back");
 }
 
 module.exports.destroysession = function(req, res){
     req.logout(function(err) {
         if (err) { return next(err); }
         req.flash('success', 'You have logged out!');    
-        res.redirect('/');
+        res.redirect('back');
       });
 }

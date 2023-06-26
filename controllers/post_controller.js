@@ -3,6 +3,9 @@ const Post = require("../models/post");
 const Comment = require("../models/comments");
 const path=require('path')
 const fs =require('fs')
+
+const gpass = require("../config/passport-google-oauth2-strategy");
+
 // module.exports.create = function(req,res){
 //     Post.create({
 //         content: req.body.content,

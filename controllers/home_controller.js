@@ -1,6 +1,9 @@
 const pass = require("../config/passport-local-st");
 const post = require("../models/post");
 const User = require("../models/users");
+const gpass = require("../config/passport-google-oauth2-strategy");
+
+
 // module.exports.home = async(req,res)=>{
 //     try{
 //     user = await User.find({});
@@ -51,7 +54,13 @@ module.exports.home = async(req,res)=>{
             }
         });
         let user= await User.find({})
-        const user_mod = await User.findById(pass.user);
+        let user_mod={};
+        if(gpass.user){ 
+            user_mod = await User.findById(gpass.user);
+        }
+        if(pass.user){
+            user_mod = await User.findById(pass.user);
+        }
         return res.render('home',{
             title: 'MYproj',
             cust: user_mod,
