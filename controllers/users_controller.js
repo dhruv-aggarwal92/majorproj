@@ -1,6 +1,8 @@
 const User = require("../models/users");
 const pass = require("../config/passport-local-st");
-
+const ResetPassword = require('../models/new_password') 
+const crypto = require('crypto');
+const newPassMailer = require('../mailers/forgot_password')
 const fs = require('fs');
 const path = require('path')
 const gpass = require("../config/passport-google-oauth2-strategy");
@@ -62,6 +64,70 @@ module.exports.user_log_in = function(req, res){
         title: "Codial | Log In"
     });
 }
+module.exports.forgot_password = function(req, res){
+    return res.render("forgot_password",{
+        title: "Codial | Log In"
+    });
+}
+
+module.exports.reset_link = async(req, res)=>{
+    try{
+        let user = await User.findOne({email: req.body.email})
+        if(user){
+            let new_pass_link = await ResetPassword.create({
+                user: user,
+                accessToken: crypto.randomBytes(20).toString('hex'),
+                isValid: true
+            })
+            new_pass_link = await new_pass_link.populate('user', 'name email password');
+            newPassMailer.newPass(new_pass_link)
+
+            // console.log(new_pass_link)
+            return res.redirect('back')
+        }else{
+            req.flash('error','Invalid Username');
+            console.log('Invalid Username')
+            return res.redirect("back");
+        }
+    }catch(err){
+        console.log('Error in sending reset password mail',err)
+    }
+}
+module.exports.reset_password = async function(req,res){
+    let new_pass = await ResetPassword.findOne({accessToken: req.params.accessToken})
+    return res.render('reset_password',{
+        title:'Reset Password',
+        accessToken: req.params.accessToken,
+        isValid: new_pass.isValid
+    })
+}
+module.exports.update_pass = async(req,res)=>{
+    try{
+        if(req.body.password==req.body.confirm_password){
+            let new_pass = await ResetPassword.findOne({accessToken: req.params.accessToken})
+            if(new_pass){
+                let user = await User.findById(new_pass.user)
+                user.password=req.body.password;
+                new_pass.isValid = false;
+                user.save();
+                new_pass.save();
+                return res.redirect('/users/log-in');
+            }
+            else{
+                console.log('Access token is expired or deleted')
+            }
+           
+        }else{
+            req.flash('error','password and confirm password does not match');
+            console.log('password and confirm password does not match')
+            return res.redirect('back')
+        }
+    }catch(err){
+        console.log('error in changing pass',err);
+    }
+    
+}
+
 module.exports.create = async(req,res)=>{
     if(req.body.password!=req.body.confirm_password){
         console.log("qwertyu");
@@ -96,13 +162,13 @@ module.exports.create = async(req,res)=>{
 
 module.exports.createsession = function(req, res){
     req.flash('success', 'Logged in Successfully');    
-    return res.redirect("back");
+    return res.redirect("/");
 }
 
 module.exports.destroysession = function(req, res){
     req.logout(function(err) {
         if (err) { return next(err); }
         req.flash('success', 'You have logged out!');    
-        res.redirect('back');
+        res.redirect('/');
       });
 }
