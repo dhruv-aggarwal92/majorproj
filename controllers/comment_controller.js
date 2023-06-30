@@ -5,8 +5,9 @@ const job = require('../config/kue')
 const commentEmailWorker = require('../workers/comment_email_workers')
 const commentsMailer = require('../mailers/comments_mailer');
 const queue = require("../config/kue");
+const Like = require('../models/likes');
 
-module.exports.create = async(req,res)=>{
+module.exports.create = async(req, res)=>{
     try{
         const post = await Post.findById(req.body.post)
         try{  
@@ -30,17 +31,17 @@ module.exports.create = async(req,res)=>{
                     console.log('job enqueued',job.id);
                 })
 
-                if(req.xhr){                    
+                if(req.xhr){                
+                    console.log('xcvb')    
                     return res.status(200).json({
                         data:{
-                            post:post,                   //my different way
                             comment:comment
                         },
                         message: "comment cereated"
-                    })
+                    });
                 }
                 req.flash('success', 'Comments is posted')
-                return res.redirect('/');
+                res.redirect('/');
                 }
             else{
                 req.flash('error', 'This is not a valid post')
@@ -61,6 +62,9 @@ module.exports.destroy = async(req,res)=>{
             let postid = comment.post;
             let c = await Comment.findByIdAndDelete(comment._id)
             let post = await Post.findByIdAndUpdate(postid,{$pull:{comments:req.params.id}})
+
+            //delete a like
+            await Like.deleteMany({likeable:comment._id, onModel: 'Comment'});
             req.flash('success', 'Comment is deleted')
             return res.redirect('back');
         }

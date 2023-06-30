@@ -12,9 +12,9 @@ passport.use(new LocalStrategy({
         // find a user and establish the identity
         try{
         const user = await User.findOne({email: email})
-        console.log(user);
+        // console.log(user);
         module.exports.user = user;
-        console.log(user);
+        // console.log(user);
 
             if (!user || user.password != password){
                 req.flash('error','Invalid Username/Password');

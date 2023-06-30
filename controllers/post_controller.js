@@ -4,6 +4,7 @@ const Comment = require("../models/comments");
 const path=require('path')
 const fs =require('fs')
 
+const Like = require('../models/likes');
 const gpass = require("../config/passport-google-oauth2-strategy");
 
 // module.exports.create = function(req,res){
@@ -45,26 +46,39 @@ const gpass = require("../config/passport-google-oauth2-strategy");
 // }
 module.exports.create = async(req,res)=>{
     try{
-            Post.uploadedPost(req,res, async(err)=>{
+        Post.uploadedPost(req,res, async(err)=>{
             if(err){console.log('*****Multer Error*****:',err)}
-        
-        let post = await Post.create({
-            content: req.body.content,
-            user: pass.user._id
-        });
-        if(req.file){
-            //this is saving the path of the uploaded file into the avatar field in user 
-            post.post_img = Post.postimgpath+'/'+req.file.filename;
-        }
-        post.save();
-        req.flash('success', 'Post is created')
+            let post = await Post.create({
+                content: req.body.content,
+                user: pass.user._id
+            });
+            if(req.file){
+                console.log('12e')
+                //this is saving the path of the uploaded file into the avatar field in user 
+                post.post_img = Post.postimgpath+'/'+req.file.filename;
+                console.log('cvbn')
+            }
+            console.log('34567890')
+            post.save();
+            // if (req.xhr){
+            //     // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+            //     post = await post.populate('user', 'name post_img');
 
-        return res.redirect('/');
+            //     return res.status(200).json({
+            //         data: {
+            //             post: post
+            //         },
+            //         message: "Post created!"
+            //     });
+            // }
+
+            req.flash('success', 'Post is created')
+            return res.redirect('back');
         })
     }catch(err){
         req.flash('error', err)
-
-        console.log("err in posting post");
+        console.log("err in posting post",err);
+        return res.redirect('back');
     }
 }
 
@@ -74,6 +88,12 @@ module.exports.destroy = async(req,res)=>{
         // .id means converting the object id into string
         if(post.user == pass.user.id){               //pass is for user loged in at that moment
             // post.remove();
+            await Like.deleteMany({likeable:post, onModel:'Post'});
+            for(postcom in post.comments){
+                console.log('postcom=',post.comments[postcom]);
+                await Like.deleteMany({likeable:post.comments[postcom]})
+            }
+
             let cont = await Post.findByIdAndDelete(post._id)
             let cot = await Comment.deleteMany({post: req.params.id})
             

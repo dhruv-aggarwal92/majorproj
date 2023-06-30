@@ -51,8 +51,11 @@ module.exports.home = async(req,res)=>{
             path:'comments',
             populate:{
                 path: 'user'
+            },
+            populate:{
+                path:'likes'
             }
-        });
+        }).populate('likes')
         let user= await User.find({})
         let user_mod={};
         if(gpass.user){ 
@@ -69,6 +72,7 @@ module.exports.home = async(req,res)=>{
         })
     }catch(err){
         console.log("err in finding user",err)
+        return;
     }
 }
 
