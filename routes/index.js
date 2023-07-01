@@ -9,6 +9,7 @@ router.use('/users', require('./users'));       //this is how we can assess the 
 router.use('/posts',require('./posts'));        //the first one is for action we write in the html file form and second one is for the file we made in routes
 router.use('/comments',require('./comments'));
 router.use('/likes',require('./likes'));
+router.use('/friends',require('./friends'));
 
 
 router.use('/api',require('./api'));

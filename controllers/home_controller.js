@@ -3,7 +3,7 @@ const post = require("../models/post");
 const User = require("../models/users");
 const gpass = require("../config/passport-google-oauth2-strategy");
 
-
+const Likeable = require('../models/friendship');
 // module.exports.home = async(req,res)=>{
 //     try{
 //     user = await User.find({});
@@ -56,19 +56,39 @@ module.exports.home = async(req,res)=>{
                 path:'likes'
             }
         }).populate('likes')
+
         let user= await User.find({})
+        
         let user_mod={};
         if(gpass.user){ 
-            user_mod = await User.findById(gpass.user);
+            user_mod = await User.findById(gpass.user)
+            .populate('friendships')
+            .populate({
+            path:'friendships',
+            populate:{
+                path:'name'
+            }
+        })
         }
         if(pass.user){
-            user_mod = await User.findById(pass.user);
+            user_mod = await User.findById(pass.user)
+            .populate('friendships')
+            .populate({
+            path:'friendships',
+            populate:{
+                path:'name'
+            }
+        })
         }
+        // .populate({
+        //     path:'name'
+        // });
+        // console.log(user_mod)
         return res.render('home',{
             title: 'MYproj',
             cust: user_mod,
             user_post: posts,
-            all_user: user
+            all_user: user,
         })
     }catch(err){
         console.log("err in finding user",err)

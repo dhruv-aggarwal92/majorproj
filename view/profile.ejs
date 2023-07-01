@@ -30,12 +30,34 @@
                 </div>
             </form>
             <p>Log in again to see changes</p>
-        <%}else{%>    
-            <!-- else show only the profile info -->
-            <p><%= user.name %></p>
-            <p><%= cust2.name %></p>
-            <p><%= cust2.email %></p>
-        <%} %>
+            <%}else{%>    
+                <!-- else show only the profile info -->
+                <p><%= user.name %></p>
+                <p><%= cust2.name %></p>
+                <p><%= cust2.email %></p>
+                <% if(locals.user){%>
+                    <%if(friend==false){%>
+                        <form action="/friends/isfriend/?id=<%=cust2._id %>&type=false" method="POST">
+                            <input type="submit" value="Add friend">
+                        </form>
+                    <%}else if(friend==true){%>
+                        <h1>Is your friend</h1>
+                        <form action="/friends/isfriend/?id=<%=cust2._id %>&type=true" method="POST">
+                            <input type="submit" value="Remove friend">
+                        </form>
+                    <%}else if(friend.to_user == cust2.id){%>
+                        <h1>Request has been sent</h1>
+                        <form action="/friends/request/?id=<%=cust2._id %>&type=<%=friend._id%>&request=remove" method="POST">
+                            <input type="submit" value="Remove Request">
+                        </form>
+                    <%}else{%>
+                        <h1>Requested you to be friend</h1>
+                        <form action="/friends/request/?id=<%=cust2._id %>&type=<%=friend._id%>&request=accept" method="POST">
+                            <input type="submit" value="Accept Request">
+                        </form>
+                    <%}%>
+                <%}%>
+            <%}%>
 
     </body>
     <script src="/js/profile.js"></script>

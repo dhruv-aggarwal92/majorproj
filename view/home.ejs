@@ -26,11 +26,22 @@
                 </div>
             </section>
             <section id="user-friends">
-                <h4>Friends</h4>
+                <% if(locals.user){%>
+                    <h4>Friends</h4>
+                    <%for(u of cust.friendships){%>   
+                        <p>
+                            <a href="/users/profile/<%= u.name %>"><%=u.name %></a>
+                        </p>
+                    <%}%>
+                    <hr>
+                    <hr>
+                    <br>
+                <%}%>
+                <h4>Users</h4>
                 <%for(u of all_user){%>
                     <% if(!locals.user){%>
                             <p>
-                                <a href="/users/profile/<%= u.id %>"><%=u.name %></a>
+                                <a href="/users/profile/<%= u.name %>"><%=u.name%></a>
                             </p>
                     <%}else{%>
                         <% if(locals.user && u.id != cust.id){%>
@@ -41,12 +52,13 @@
                     <%}%>
 
                 <%}%>
-
+                
             </section>
         </div>
     </body>
     <script src="/js/home_comments.js"></script>
 
+    <script src="/js/home_posts.js"></script>
     <!-- CHANGE :: import the script file for toggle likes, also run it over for the already present posts and comments on the page -->
 <script src="js/toggle_likes.js"></script>
 
@@ -57,4 +69,3 @@
     });
 </script>
 </html>
-

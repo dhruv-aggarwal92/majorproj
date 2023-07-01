@@ -58,19 +58,18 @@ module.exports.create = async(req,res)=>{
                 post.post_img = Post.postimgpath+'/'+req.file.filename;
                 console.log('cvbn')
             }
-            console.log('34567890')
             post.save();
-            // if (req.xhr){
-            //     // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
-            //     post = await post.populate('user', 'name post_img');
+            if (req.xhr){
+                // if we want to populate just the name of the user (we'll not want to send the password in the API), this is how we do it!
+                post = await post.populate('user', 'name post_img');
 
-            //     return res.status(200).json({
-            //         data: {
-            //             post: post
-            //         },
-            //         message: "Post created!"
-            //     });
-            // }
+                return res.status(200).json({
+                    data: {
+                        post: post
+                    },
+                    message: "Post created!"
+                });
+            }
 
             req.flash('success', 'Post is created')
             return res.redirect('back');

@@ -6,6 +6,8 @@ const newPassMailer = require('../mailers/forgot_password')
 const fs = require('fs');
 const path = require('path')
 const gpass = require("../config/passport-google-oauth2-strategy");
+
+const Friendship = require('../models/friendship');
 module.exports.update = async(req,res)=>{
     try{   
     if(pass.user.id == req.params.id){
@@ -38,20 +40,46 @@ module.exports.update = async(req,res)=>{
         return res.status(401).send('Unauthorized');
     }
 }
+
 module.exports.profile = async(req, res)=>{
     let user = await User.findById(req.params.id);
+    let friend;
     let user_mod={};
     if(pass.user){
         user_mod = await User.findById(pass.user);
     }
     if(gpass.user){
         user_mod = await User.findById(gpass.user);
-
+    }   
+    let Friends_r = await Friendship.findOne({
+        from_user: req.params.id,
+        to_user: user_mod.id
+    })
+    // console.log(user_mod.id)
+    // console.log(req.params.id)
+    // console.log(Friends_r)
+    if(!Friends_r){
+        Friends_r = await Friendship.findOne({
+            from_user: user_mod.id,
+            to_user: req.params.id
+        })
     }
+    if(Friends_r){
+
+        if(Friends_r.is_friend==true){
+            friend = true;
+        }else{
+            friend = Friends_r;
+        }
+    }else{
+        friend = false;
+    }
+    // console.log('as=',friend);
     return res.render("profile",{
         title: "Codial | profile",
         cust2: user,
-        cust: user_mod
+        cust: user_mod,
+        friend: friend
     });
 }
 module.exports.user_sign_up = function(req, res){

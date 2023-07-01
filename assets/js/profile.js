@@ -2,7 +2,6 @@ const img = document.getElementById('profile_pic')
 let info = document.getElementById("info");
 const imagePreview = document.getElementById("preview");
 const reader = new FileReader();
-console.log('234')
 img.addEventListener("change", (e) => {
     const imgDetails = document.querySelector("input[type=file]").files[0]; //***this is the main line which will give all info of image we selected
     if (imgDetails) {

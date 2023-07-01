@@ -4,7 +4,7 @@ class ToggleLike{
         this.toggler = toggleElement;
         this.toggleLike();
     }
-
+    
 
     toggleLike(){
         $(this.toggler).click(function(e){
