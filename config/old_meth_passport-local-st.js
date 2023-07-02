@@ -10,7 +10,6 @@ passport.use(new LocalStrategy({
         usernameField: 'email'
     },
     function(email, password, done){
-        console.log("123456789")
         // find a user and establish the identity
         User.findOne({email: email}, function(err, user)  {
             if (err){

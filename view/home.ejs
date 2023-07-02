@@ -1,6 +1,6 @@
-<html>
     <head>
         <link rel="stylesheet" href="/css/home.css">
+        <link rel="stylesheet" href="/css/chat_box.css">
         <title>
             <%= title %>
         </title>
@@ -30,7 +30,7 @@
                     <h4>Friends</h4>
                     <%for(u of cust.friendships){%>   
                         <p>
-                            <a href="/users/profile/<%= u.name %>"><%=u.name %></a>
+                            <a href="/users/profile/<%= u.id %>"><%=u.name %></a>
                         </p>
                     <%}%>
                     <hr>
@@ -41,7 +41,7 @@
                 <%for(u of all_user){%>
                     <% if(!locals.user){%>
                             <p>
-                                <a href="/users/profile/<%= u.name %>"><%=u.name%></a>
+                                <a href="/users/profile/<%= u.id %>"><%=u.name%></a>
                             </p>
                     <%}else{%>
                         <% if(locals.user && u.id != cust.id){%>
@@ -54,6 +54,7 @@
                 <%}%>
                 
             </section>
+            <%- include('_chat_box') -%> 
         </div>
     </body>
     <script src="/js/home_comments.js"></script>
@@ -68,4 +69,11 @@
         let toggleLike = new ToggleLike(self);
     });
 </script>
-</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.7.1/socket.io.js"></script>
+<script src="/js/chat_engine.js"></script>
+<%if(locals.user){%>
+    <script>
+        new ChatEngine('user-chat-box','<%=cust.email%>')
+    </script>    
+<%}%>
+

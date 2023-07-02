@@ -32,7 +32,7 @@
             <p>Log in again to see changes</p>
             <%}else{%>    
                 <!-- else show only the profile info -->
-                <p><%= user.name %></p>
+                <p><%= locals.user.id %></p>
                 <p><%= cust2.name %></p>
                 <p><%= cust2.email %></p>
                 <% if(locals.user){%>

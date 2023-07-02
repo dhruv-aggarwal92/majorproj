@@ -1,7 +1,6 @@
 {
     //methord to submit the form data for new post using AJAX
     let createPost = function(){
-        console.log('1')
         let newPostForm = $('#new-post-form');
         newPostForm.submit(function(e){
             e.preventDefault();
