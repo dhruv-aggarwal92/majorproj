@@ -3,6 +3,7 @@ const env = require('./config/environment')
 
 const logger = require('morgan')
 const app = express();
+require('./config/view-helpers')(app)
 const cookieParsar = require('cookie-parser');
 const port = 9000;
 const expressLayouts = require('express-ejs-layouts');         //header and footers etc.
@@ -35,7 +36,7 @@ const path = require('path');
 app.use(express.urlencoded());
 app.use(cookieParsar());
 
-app.use(express.static('assets')); 
+app.use(express.static(env.asset_path)); 
 //make the uploads path available to browser
 app.use('/uploads',express.static(__dirname+'/uploads')) 
 app.use(logger(env.morgan.mode, env.morgan.options));
