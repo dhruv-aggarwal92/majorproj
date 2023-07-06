@@ -1,4 +1,7 @@
 const express = require('express');
+const env = require('./config/environment')
+
+const logger = require('morgan')
 const app = express();
 const cookieParsar = require('cookie-parser');
 const port = 9000;
@@ -21,7 +24,7 @@ const chatServer  = require('http').Server(app);
 const chatSockets = require('./config/chat_sockets').chatSockets(chatServer);
 chatServer.listen(5000);
 console.log('chat server server is listening on port 5000')
-
+const path = require('path');
 
 // var sass = require('node-sass');                //sass
 // sass.render({
@@ -35,7 +38,7 @@ app.use(cookieParsar());
 app.use(express.static('assets')); 
 //make the uploads path available to browser
 app.use('/uploads',express.static(__dirname+'/uploads')) 
-
+app.use(logger(env.morgan.mode, env.morgan.options));
 
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout
@@ -54,7 +57,7 @@ app.set('views','./view');
 
 app.use(session({
     name:"codeial",
-    secret:"abcd",
+    secret:env.session_cookie_key,
     saveUninitialized:false,
     resave:false,
     cookie:{

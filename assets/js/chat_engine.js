@@ -26,12 +26,10 @@ class ChatEngine{
             self.socket.on('user_joined', function(data){
                 console.log('a user joined!', data);
             })
-
         })
          // CHANGE :: send a message on clicking the send message button
          send.addEventListener('click',function(){
             let msg = $('#chat-message-input').val();
-            console.log
             if (msg != ''){
                 self.socket.emit('send_message', {
                     message: msg,

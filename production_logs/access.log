@@ -1,0 +1,5 @@
+::1 - - [Wed, 05 Jul 2023 17:03:37 GMT] "GET / HTTP/1.1" 200 5299 "http://localhost:9000/users/profile/64a583d80d7ce1d06717a2ee" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+::1 - - [Wed, 05 Jul 2023 17:03:45 GMT] "GET /users/profile/64a583d80d7ce1d06717a2ee HTTP/1.1" 302 70 "http://localhost:9000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+::1 - - [Wed, 05 Jul 2023 17:03:46 GMT] "GET /users/log-in HTTP/1.1" 200 2282 "http://localhost:9000/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+::1 - - [Wed, 05 Jul 2023 17:03:49 GMT] "POST /users/createsession HTTP/1.1" 302 46 "http://localhost:9000/users/log-in" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
+::1 - - [Wed, 05 Jul 2023 17:03:49 GMT] "GET / HTTP/1.1" 200 7395 "http://localhost:9000/users/log-in" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36"
