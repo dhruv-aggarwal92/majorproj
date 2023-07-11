@@ -33,13 +33,13 @@ const path = require('path');
 //     [, options..]
 //   }, function(err, result) { /*...*/ });
 
-app.use(express.urlencoded());
+app.use(express.urlencoded({extended: false}));
 app.use(cookieParsar());
 
 app.use(express.static(env.asset_path)); 
 //make the uploads path available to browser
 app.use('/uploads',express.static(__dirname+'/uploads')) 
-app.use(logger(env.morgan.mode, env.morgan.options));
+app.use(logger(env.morgan.node, env.morgan.options));
 
 app.use(expressLayouts);
 // extract style and scripts from sub pages into the layout

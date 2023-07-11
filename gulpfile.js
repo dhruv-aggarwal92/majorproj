@@ -9,23 +9,7 @@ const uglify = import('gulp-uglify-es').default;
 const imagemin = import('gulp-imagemin');
 const del = import('del')
 
-task('css',function(done){
-    console.log('minifing css...');
-    src('./assets/sass/**/*.scss')
-    .pipe(sass())
-    .pipe(cssnano())
-    .pipe(dest('./assets.css'))
-    src('./assets/**/*.css')
 
-    .pipe(rev())
-    .pipe(dest('./public/assets'))
-    .pipe(rev.manifest({
-        cwd: 'public',
-        merge: true
-    }))
-    .pipe(dest('./public/assets'));
-    done();
-})
 
 task('js', function(done){
     console.log('minifying js...');
@@ -40,6 +24,23 @@ task('js', function(done){
     .pipe(dest('./public/assets'));
     done()
 });
+task('css',function(done){
+    console.log('minifing css...');
+    src('./assets/sass/**/*.scss')
+    .pipe(sass())
+    .pipe(cssnano())
+    .pipe(dest('./assets.css'))
+    src('./assets/**/*.css')
+
+    .pipe(rev())
+    .pipe(dest('./public/assets'))
+    .pipe(rev.manifest({       //it stores the file like packege.json which have old files name as object and rename file name as key
+        cwd: 'public',         //its map these file basically
+        merge: true
+    }))
+    .pipe(dest('./public/assets'));
+    done();
+})
 
 task('images', function(done){
     console.log('compressing images...');
