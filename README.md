@@ -1,4 +1,4 @@
-# majorproj
+# Social Media Website 
 A Social Media Website which includes 
 - Basic Login/SignIN options Google signin option.
 - Creationg Posts -- Images, Videos, Blogs etc.
